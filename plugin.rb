@@ -5,7 +5,7 @@
 
 after_initialize do
     # Custom webhook modification
-    DiscourseEvent.on(:webhook_event_type) do |event|
+    DiscourseEvent.on(:notification_created) do |event|
       # Modify payload to include user's email
       if event[:user_id]
         user = User.find(event[:user_id])
