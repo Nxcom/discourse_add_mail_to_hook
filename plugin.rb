@@ -17,33 +17,33 @@ after_initialize do
   end
   
 
-  # Modify the WebHookPostView to include the mentioned user's email in the payload
-  add_to_class(:web_hook_post_view, :payload) do
-    # Call the original payload method to get the default payload
-    data = super()
+#   # Modify the WebHookPostView to include the mentioned user's email in the payload
+#   add_to_class(:web_hook_post_view, :payload) do
+#     # Call the original payload method to get the default payload
+#     data = super()
 
-    # Extract post content from the payload
-    if post = data[:post]
-      # Extract mentioned usernames from the post content
-      mentioned_usernames = post[:raw].scan(/@([\w\-]+)/).flatten
+#     # Extract post content from the payload
+#     if post = data[:post]
+#       # Extract mentioned usernames from the post content
+#       mentioned_usernames = post[:raw].scan(/@([\w\-]+)/).flatten
 
-      # For each mentioned username, find the user and add their info to the payload
-      mentioned_usernames.each do |username|
-        user = User.find_by(username: username)
+#       # For each mentioned username, find the user and add their info to the payload
+#       mentioned_usernames.each do |username|
+#         user = User.find_by(username: username)
         
-        if user
-          # Append the mentioned user's ID and email to the payload
-          data[:mentioned_users] ||= []
-          data[:mentioned_users] << {
-            user_id: user.id,
-            username: user.username,
-            email: user.email
-          }
-        end
-      end
-    end
+#         if user
+#           # Append the mentioned user's ID and email to the payload
+#           data[:mentioned_users] ||= []
+#           data[:mentioned_users] << {
+#             user_id: user.id,
+#             username: user.username,
+#             email: user.email
+#           }
+#         end
+#       end
+#     end
 
-    # Return the modified payload
-    data
-  end  
+#     # Return the modified payload
+#     data
+#   end  
 end
