@@ -5,7 +5,7 @@
 
 after_initialize do
   # Custom webhook modification
-  DiscourseEvent.on(:webhook_event_type) do |event|
+  DiscourseEvent.on(:post_created) do |event|
     # Assuming event contains the user's ID
     if event[:user_id]
       user = User.find_by(id: event[:user_id])
