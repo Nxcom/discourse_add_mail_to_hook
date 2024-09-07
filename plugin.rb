@@ -24,7 +24,7 @@ after_initialize do
   add_to_serializer(:notification, :user_email) do
     Rails.logger.info("Notification Object: #{object.inspect}")
 
-    user = User.find_by(id: object.notification[:user_id])
+    user = User.find_by(id: object[:user_id])
     if user
       Rails.logger.info("User Object: #{user.inspect}")
       user.email
