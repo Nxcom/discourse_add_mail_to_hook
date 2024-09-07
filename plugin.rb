@@ -16,9 +16,24 @@ after_initialize do
   end
 
   # Add the email field to the notification webhook payload
+  #add_to_serializer(:notification, :user_email) do
+  #  user = User.find_by(id: object.notification[:user_id])
+  #  user.email if user
+  # end
+
   add_to_serializer(:notification, :user_email) do
+    Rails.logger.info("Notification Object: #{object.inspect}")
+
     user = User.find_by(id: object.notification[:user_id])
-    user.email if user
+    if user
+      Rails.logger.info("User Object: #{user.inspect}")
+      user.email
+    else
+      Rails.logger.warn("No user found for Notification.")
+      nil
+    end
+
   end
+
 end
 
