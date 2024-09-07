@@ -11,10 +11,10 @@
 #    end
 #  end
 
-  # Add the email field to the webhook post payload
- # add_to_serializer(:web_hook_post, :user_email) do
- #   object.user.email if object.user
- # end
+# Add the email field to the webhook post payload
+add_to_serializer(:web_hook_post, :user_email) do
+  object.user.email if object.user
+end
 after_initialize do
   # Add the email field to the notification webhook payload
   add_to_serializer(:notification, :user_email) do
