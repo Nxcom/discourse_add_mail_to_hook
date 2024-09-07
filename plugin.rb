@@ -17,7 +17,7 @@
  # end
 after_initialize do
   # Add the email field to the notification webhook payload
-  add_to_serializer(:web_hook_notification, :user_email) do
+  add_to_serializer(:webhook_notification, :user_email) do
     user = User.find_by(id: object.data[:user_id])
     user.email if user
   end
