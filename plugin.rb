@@ -23,7 +23,7 @@ after_initialize do
   end
   
   # Add the base URL to all webhook payloads, regardless of type
-  add_to_serializer(:web_hook_event, :site_url) do
+  add_to_serializer(:application, :site_url) do
     Discourse.base_url
   end
 
