@@ -4,14 +4,8 @@
 # authors: TuanHA
 
 after_initialize do
-  # Extend the WebHookPostView to include the user's email in the payload
-  module ::CustomWebHookExtension
-    def email
-      object.user.email
-    end
-  end
   # Add the email field to the webhook post payload
-  add_to_serializer(:web_hook_post, :user_email) do
+  add_to_serializer(:web_hook_post, :post_user_email) do
     object.user.email if object.user
   end
 
@@ -21,18 +15,21 @@ after_initialize do
   #  user.email if user
   # end
 
-  add_to_serializer(:notification, :user_email) do
-    Rails.logger.info("Notification Object: #{object.inspect}")
-
+  add_to_serializer(:notification, :notified_user_email) do
+    #Rails.logger.info("Notification Object: #{object.inspect}")
     user = User.find_by(id: object[:user_id])
     if user
-      Rails.logger.info("User Object: #{user.inspect}")
+      #Rails.logger.info("User Object: #{user.inspect}")
       user.email
     else
-      Rails.logger.warn("No user found for Notification.")
+      #Rails.logger.warn("No user found for Notification.")
       nil
     end
-
+  end
+  
+  # Add the base URL to all webhook payloads, regardless of type
+  add_to_serializer(:web_hook_event, :site_url) do
+    Discourse.base_url
   end
 
 end
